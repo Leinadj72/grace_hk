@@ -1,0 +1,6 @@
+{
+    "name": "banks/clusterit",
+    "require": {
+        "phpmailer/phpmailer": "^6.6"
+    }
+}
