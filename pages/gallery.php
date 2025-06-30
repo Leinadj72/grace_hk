@@ -80,14 +80,22 @@ $media = $stmt->fetchAll();
                     <div class="col-md-4">
                         <div class="card shadow-sm">
                             <?php if ($file['file_type'] === 'image'): ?>
-                                <img src="stream_media.php?file=<?= urlencode($file['file_name']) ?>" class="gallery-item card-img-top" alt="Gallery Image">
+                                <img src="stream_media.php?file=<?= urlencode($file['file_name']) ?>"
+                                    class="gallery-item card-img-top"
+                                    alt="Gallery Image"
+                                    oncontextmenu="return false;">
                             <?php elseif ($file['file_type'] === 'video'): ?>
-                                <video controls class="gallery-item card-img-top" oncontextmenu="return false;" controlsList="nodownload nofullscreen noremoteplayback" disablePictureInPicture>
+                                <video class="gallery-item card-img-top"
+                                    muted
+                                    controls
+                                    oncontextmenu="return false;"
+                                    controlsList="nodownload nofullscreen noremoteplayback"
+                                    disablePictureInPicture>
                                     <source src="stream_media.php?file=<?= urlencode($file['file_name']) ?>" type="video/mp4">
                                     Your browser does not support the video tag.
                                 </video>
-
                             <?php endif; ?>
+
                         </div>
                     </div>
                 <?php endforeach; ?>
