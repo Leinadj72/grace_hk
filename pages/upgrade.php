@@ -68,9 +68,16 @@ if ($is_paid) {
                 </div>
 
                 <?php if (isset($_SESSION['upgrade_success'])): ?>
-                    <div class="alert alert-success"><?= $_SESSION['upgrade_success'];
-                                                        unset($_SESSION['upgrade_success']); ?></div>
+                    <div class="alert alert-success">
+                        <?= $_SESSION['upgrade_success'];
+                        unset($_SESSION['upgrade_success']); ?>
+                    </div>
+                <?php elseif (isset($_GET['success']) && $_GET['success'] === 'submitted'): ?>
+                    <div class="alert alert-success">✅ Request submitted! Please wait for manual approval.</div>
+                <?php elseif (isset($_GET['error']) && $_GET['error'] === 'empty'): ?>
+                    <div class="alert alert-danger">❌ Transaction ID is required.</div>
                 <?php endif; ?>
+
 
                 <form method="POST" action="submit_upgrade_request.php" class="mt-4">
                     <h5>📤 Submit Payment Transaction ID</h5>

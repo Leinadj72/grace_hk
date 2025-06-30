@@ -8,9 +8,10 @@ $user_id = $_SESSION['user_id'];
 $transaction_id = trim($_POST['transaction_id'] ?? '');
 
 if ($transaction_id === '') {
-    header("Location: upgrade.php");
+    header("Location: upgrade.php?error=empty");
     exit();
 }
+
 
 // Check if user already submitted a request
 $stmt = $pdo->prepare("SELECT id FROM upgrade_requests WHERE user_id = ? AND status = 'pending'");
