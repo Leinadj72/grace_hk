@@ -7,6 +7,10 @@ require '../includes/auth.php';
 
 requireLogin();
 
+function e($val) {
+    return htmlspecialchars($val ?? '', ENT_QUOTES, 'UTF-8');
+}
+
 $user_id = $_SESSION['user_id'];
 $username = $_SESSION['username'];
 $message = '';
@@ -86,7 +90,7 @@ $myBookings = $stmt->fetchAll();
 
                 <?php if ($message): ?>
                     <div class="alert alert-<?= $bookingSuccess ? 'success' : 'danger' ?>">
-                        <?= $message ?>
+                        <?= e($message) ?>
                     </div>
                 <?php endif; ?>
 
@@ -101,15 +105,15 @@ $myBookings = $stmt->fetchAll();
                     </div>
                     <div class="mb-3">
                         <label for="location" class="form-label">Preferred Location</label>
-                        <input type="text" name="location" id="location" class="form-control" required>
+                        <input type="text" name="location" id="location" class="form-control" placeholder="Type your location" required>
                     </div>
                     <div class="mb-3">
                         <label for="contact" class="form-label">Your Contact (Phone/WhatsApp)</label>
-                        <input type="text" name="contact" id="contact" class="form-control" required>
+                        <input type="text" name="contact" id="contact" class="form-control" placeholder="Enter Your Contact" required>
                     </div>
                     <div class="mb-3">
                         <label for="message" class="form-label">Additional Message</label>
-                        <textarea name="message" id="message" class="form-control" rows="3" required></textarea>
+                        <textarea name="message" id="message" class="form-control" rows="3" placeholder="What do you want: Hookup OR SVC(Sex Video Call?)" required></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary w-100">Submit Booking</button>
                 </form>
@@ -139,11 +143,11 @@ $myBookings = $stmt->fetchAll();
                             <?php foreach ($myBookings as $i => $b): ?>
                                 <tr>
                                     <td><?= $i + 1 ?></td>
-                                    <td><?= htmlspecialchars($b['booking_date']) ?></td>
-                                    <td><?= htmlspecialchars($b['booking_time']) ?></td>
-                                    <td><?= htmlspecialchars($b['location']) ?></td>
-                                    <td><?= htmlspecialchars($b['contact']) ?></td>
-                                    <td><?= htmlspecialchars($b['message']) ?></td>
+                                    <td><?= e($b['booking_date']) ?></td>
+                                    <td><?= e($b['booking_time']) ?></td>
+                                    <td><?= e($b['location']) ?></td>
+                                    <td><?= e($b['contact']) ?></td>
+                                    <td><?= e($b['message']) ?></td>
                                     <td>
                                         <?php
                                         $status = $b['status'] ?? 'pending';
