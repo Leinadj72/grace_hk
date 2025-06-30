@@ -7,7 +7,8 @@ require '../includes/auth.php';
 
 requireLogin();
 
-function e($val) {
+function e($val)
+{
     return htmlspecialchars($val ?? '', ENT_QUOTES, 'UTF-8');
 }
 
@@ -74,7 +75,7 @@ $myBookings = $stmt->fetchAll();
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">My Hookup Site</a>
+            <a class="navbar-brand" href="#">Ghana Escorts</a>
             <div class="d-flex">
                 <a href="dashboard.php" class="btn btn-outline-light me-2">Dashboard</a>
                 <a href="logout.php" class="btn btn-outline-light">Logout</a>
