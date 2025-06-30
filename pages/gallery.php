@@ -4,7 +4,6 @@ require '../includes/auth.php';
 
 requireLogin();
 
-// Redirect free users
 if (!$_SESSION['is_paid']) {
     echo <<<HTML
     <!DOCTYPE html>
@@ -22,9 +21,7 @@ if (!$_SESSION['is_paid']) {
                 <a href="upgrade.php" class="btn btn-warning">Upgrade Now</a>
             </div>
         </div>
-        <script>
-            document.addEventListener("contextmenu", e => e.preventDefault());
-        </script>
+        <script>document.addEventListener("contextmenu", e => e.preventDefault());</script>
         <script src="../assets/js/protection.js"></script>
     </body>
     </html>
@@ -32,12 +29,12 @@ if (!$_SESSION['is_paid']) {
     exit();
 }
 
-// Fetch media
 $stmt = $pdo->prepare("SELECT * FROM media WHERE access = 'private' ORDER BY uploaded_at DESC");
 $stmt->execute();
 $media = $stmt->fetchAll();
+$username = $_SESSION['username'];
+$timestamp = date('Y-m-d H:i');
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -48,10 +45,39 @@ $media = $stmt->fetchAll();
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="icon" href="../assets/images/icon.jpeg">
     <style>
+        .gallery-item-wrapper {
+            position: relative;
+        }
+
         .gallery-item {
             height: 220px;
             object-fit: cover;
             width: 100%;
+        }
+
+        .media-watermark {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            font-size: 12px;
+            padding: 2px 6px;
+            z-index: 2;
+        }
+
+        .long-press-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            color: white;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-size: 1rem;
+            padding: 1rem;
+            z-index: 9999;
         }
     </style>
 </head>
@@ -78,47 +104,50 @@ $media = $stmt->fetchAll();
             <?php else: ?>
                 <?php foreach ($media as $file): ?>
                     <div class="col-md-4">
-                        <div class="card shadow-sm">
+                        <div class="card shadow-sm gallery-item-wrapper">
                             <?php if ($file['file_type'] === 'image'): ?>
-                                <img src="stream_media.php?file=<?= urlencode($file['file_name']) ?>"
-                                    class="gallery-item card-img-top"
-                                    alt="Gallery Image"
-                                    oncontextmenu="return false;"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#imageModal"
-                                    data-image="stream_media.php?file=<?= urlencode($file['file_name']) ?>">
+                                <div class="position-relative">
+                                    <img src="stream_media.php?file=<?= urlencode($file['file_name']) ?>"
+                                        class="gallery-item card-img-top"
+                                        alt="Gallery Image"
+                                        oncontextmenu="return false;"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#imageModal"
+                                        data-image="stream_media.php?file=<?= urlencode($file['file_name']) ?>">
+                                    <div class="media-watermark"><?= $username ?> | <?= $timestamp ?></div>
+                                    <div class="long-press-overlay">⚠️ Screenshotting or long press is blocked.</div>
+                                </div>
                             <?php elseif ($file['file_type'] === 'video'): ?>
-                                <video class="gallery-item card-img-top"
-                                    muted
-                                    controls
-                                    oncontextmenu="return false;"
-                                    controlsList="nodownload nofullscreen noremoteplayback"
-                                    disablePictureInPicture>
-                                    <source src="stream_media.php?file=<?= urlencode($file['file_name']) ?>" type="video/mp4">
-                                    Your browser does not support the video tag.
-                                </video>
+                                <div class="position-relative">
+                                    <video class="gallery-item card-img-top"
+                                        muted controls
+                                        oncontextmenu="return false;"
+                                        controlsList="nodownload nofullscreen noremoteplayback"
+                                        disablePictureInPicture>
+                                        <source src="stream_media.php?file=<?= urlencode($file['file_name']) ?>" type="video/mp4">
+                                    </video>
+                                    <div class="media-watermark"><?= $username ?> | <?= $timestamp ?></div>
+                                    <div class="long-press-overlay">⚠️ Screenshotting or long press is blocked.</div>
+                                </div>
                             <?php endif; ?>
                         </div>
                     </div>
                 <?php endforeach; ?>
             <?php endif; ?>
         </div>
-
-        <!-- Watermark -->
-        <div id="watermark" style="position:fixed; bottom:10px; right:10px;color:white; background:#0009; padding:5px 10px; z-index:10000; font-size:12px;">
-            <?= $_SESSION['username'] ?> | <?= date('Y-m-d H:i') ?>
-        </div>
     </div>
 
-    <!-- Image Modal -->
-    <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+    <!-- Modal Full View -->
+    <div class="modal fade" id="imageModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-fullscreen">
             <div class="modal-content bg-dark border-0">
                 <div class="modal-header border-0">
                     <button type="button" class="btn-close btn-close-white ms-auto" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body text-center">
-                    <img id="modalImage" src="" class="img-fluid" style="max-height: 90vh;" alt="Full View Image" oncontextmenu="return false;">
+                <div class="modal-body text-center position-relative">
+                    <img id="modalImage" src="" class="img-fluid" style="max-height: 90vh;" oncontextmenu="return false;">
+                    <div class="media-watermark"><?= $username ?> | <?= $timestamp ?></div>
+                    <div class="long-press-overlay">⚠️ Screenshotting or long press is blocked.</div>
                 </div>
             </div>
         </div>
@@ -127,16 +156,29 @@ $media = $stmt->fetchAll();
     <!-- JS Includes -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Disable right-click
         document.addEventListener("contextmenu", e => e.preventDefault());
+
+        // Tap-hold (long press) block
+        document.querySelectorAll('.gallery-item, #modalImage').forEach(el => {
+            let pressTimer;
+            const overlay = el.closest('.position-relative')?.querySelector('.long-press-overlay') ||
+                document.querySelector('#imageModal .long-press-overlay');
+
+            el.addEventListener("touchstart", () => {
+                pressTimer = setTimeout(() => {
+                    overlay.style.display = "flex";
+                    setTimeout(() => overlay.style.display = "none", 2000);
+                }, 500);
+            });
+            el.addEventListener("touchend", () => clearTimeout(pressTimer));
+            el.addEventListener("touchmove", () => clearTimeout(pressTimer));
+        });
 
         // Image modal logic
         const modalImage = document.getElementById("modalImage");
-        const imageModal = document.getElementById("imageModal");
-        imageModal.addEventListener("show.bs.modal", function(event) {
+        document.getElementById("imageModal").addEventListener("show.bs.modal", function(event) {
             const trigger = event.relatedTarget;
-            const imageUrl = trigger.getAttribute("data-image");
-            modalImage.src = imageUrl;
+            modalImage.src = trigger.getAttribute("data-image");
         });
     </script>
     <script src="../assets/js/protection.js"></script>
