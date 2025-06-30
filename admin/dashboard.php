@@ -80,6 +80,18 @@ if (!$_SESSION['is_admin']) {
                 </a>
             </div>
 
+            <div class="col-md-4">
+                <a href="manage_paid_users.php" class="text-decoration-none">
+                    <div class="card text-center shadow-sm h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">💰 Manage Paid Users</h5>
+                            <p class="card-text">Add or remove paid status.</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+
         </div>
     </div>
 
