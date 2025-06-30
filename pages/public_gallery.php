@@ -31,8 +31,8 @@ $media = $stmt->fetchAll();
         <div class="container-fluid">
             <a class="navbar-brand" href="#">My Hookup Site</a>
             <div class="d-flex">
-                <a href="login.php" class="btn btn-outline-light me-2">Login</a>
-                <a href="register.php" class="btn btn-outline-light">Register</a>
+                <a href="dashboard.php" class="btn btn-outline-light me-2">Dashboard</a>
+                <a href="logout.php" class="btn btn-outline-light">Logout</a>
             </div>
         </div>
     </nav>
