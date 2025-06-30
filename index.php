@@ -3,9 +3,10 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Welcome | My Hookup Site</title>
+    <title>Welcome | To Ghana Escorts</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" href="../assets/images/icon.jpeg">
     <style>
         .hero {
             height: 100vh;
@@ -34,7 +35,7 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="#">My Hookup Site</a>
+            <a class="navbar-brand" href="#">Ghana Escorts</a>
             <div class="d-flex">
                 <a href="pages/login.php" class="btn btn-outline-light me-2">Login</a>
                 <a href="pages/register.php" class="btn btn-outline-light">Register</a>
@@ -60,14 +61,14 @@
             <h2>What We Offer</h2>
             <p class="mt-3">
                 Access exclusive content and discreet companionship through our verified platform.
-                Our models are available for bookings, and premium users unlock private nudes, videos, and more.
+                Our models are available, book for hookup or SVC(Sex Video Call), premium users unlock private nudes, videos, and more.
             </p>
         </div>
     </section>
 
     <!-- Footer -->
     <footer class="bg-dark text-white text-center py-3">
-        &copy; <?= date('Y') ?> My Hookup Site. All rights reserved.
+        &copy; <?= date('Y') ?> Ghana Escorts. All rights reserved.
     </footer>
 
 </body>

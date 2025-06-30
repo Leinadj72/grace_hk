@@ -63,6 +63,7 @@ $myBookings = $stmt->fetchAll();
     <title>Book Appointment</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" href="../assets/images/icon.jpeg">
 </head>
 
 <body class="bg-light">
@@ -100,7 +101,7 @@ $myBookings = $stmt->fetchAll();
                     </div>
                     <div class="mb-3">
                         <label for="location" class="form-label">Preferred Location</label>
-                        <input type="text" name="location" id="location" class="form-control">
+                        <input type="text" name="location" id="location" class="form-control" required>
                     </div>
                     <div class="mb-3">
                         <label for="contact" class="form-label">Your Contact (Phone/WhatsApp)</label>
@@ -108,7 +109,7 @@ $myBookings = $stmt->fetchAll();
                     </div>
                     <div class="mb-3">
                         <label for="message" class="form-label">Additional Message</label>
-                        <textarea name="message" id="message" class="form-control" rows="3"></textarea>
+                        <textarea name="message" id="message" class="form-control" rows="3" required></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary w-100">Submit Booking</button>
                 </form>

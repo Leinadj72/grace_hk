@@ -69,6 +69,7 @@ $admins = $pdo->query("SELECT id, username, email FROM users WHERE is_admin = 1 
     <meta charset="UTF-8">
     <title>Manage Admins</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" href="../assets/images/icon.jpeg">
 </head>
 
 <body class="bg-light">
