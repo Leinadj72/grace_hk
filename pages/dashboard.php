@@ -4,8 +4,16 @@ require '../includes/auth.php';
 
 requireLogin();
 
+if ($_SESSION['is_admin']) {
+    header("Location: ../admin/dashboard.php");
+    exit();
+}
+
 $username = $_SESSION['username'];
 $is_paid = $_SESSION['is_paid'];
+
+$success = $_SESSION['booking_success'] ?? '';
+unset($_SESSION['booking_success']);
 ?>
 
 <!DOCTYPE html>
@@ -30,6 +38,10 @@ $is_paid = $_SESSION['is_paid'];
     </nav>
 
     <div class="container mt-5">
+        <?php if ($success): ?>
+            <div class="alert alert-success"><?= $success ?></div>
+        <?php endif; ?>
+
         <div class="row justify-content-center">
             <div class="col-md-6 bg-white p-4 rounded shadow-sm">
                 <h3 class="mb-3">Welcome, <?= htmlspecialchars($username) ?>!</h3>
@@ -40,19 +52,16 @@ $is_paid = $_SESSION['is_paid'];
                     </span>
                 </p>
 
-                <?php if (!$is_paid): ?>
-                    <div class="alert alert-warning mt-4">
-                        You are currently on a free account. Upgrade to access private content!
-                        <br><br>
-                        <a href="upgrade.php" class="btn btn-warning mt-2">Upgrade Account</a>
-                    </div>
-                <?php else: ?>
-                    <div class="alert alert-success mt-4">
-                        🎉 Thank you for being a paid member! You now have full access.
-                        <br><br>
-                        <a href="gallery.php" class="btn btn-success mt-2">Go to Private Gallery</a>
-                    </div>
-                <?php endif; ?>
+                <div class="mt-4">
+                    <a href="public_gallery.php" class="btn btn-outline-primary w-100 mb-2">🌐 Public Gallery</a>
+                    <?php if ($is_paid): ?>
+                        <a href="gallery.php" class="btn btn-success w-100 mb-2">🔒 Private Gallery</a>
+                    <?php endif; ?>
+                    <a href="booking.php" class="btn btn-outline-dark w-100 mb-2">📅 Book a Hookup</a>
+                    <?php if (!$is_paid): ?>
+                        <a href="upgrade.php" class="btn btn-warning w-100">🚀 Upgrade Account</a>
+                    <?php endif; ?>
+                </div>
             </div>
         </div>
     </div>

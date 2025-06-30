@@ -80,6 +80,7 @@ if ($is_paid) {
 
 
                 <form method="POST" action="submit_upgrade_request.php" class="mt-4">
+                    <h3>OR</h3> <br>
                     <h5>📤 Submit Payment Transaction ID</h5>
                     <div class="mb-3">
                         <input type="text" name="transaction_id" class="form-control" placeholder="Enter your Transaction ID" required>
